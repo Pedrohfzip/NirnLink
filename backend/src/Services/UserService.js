@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import db from "../Database/models/index.js";
 
 const UserService = {
@@ -16,16 +15,6 @@ const UserService = {
         } catch (error) {
             console.log("Erro ao criar usuário:", error);
             throw new Error("Erro ao criar um usuário", { cause: error });
-        }
-    },
-
-    // Função para validar senha
-    async validatePassword(plainPassword, hashedPassword) {
-        try {
-            return await bcrypt.compare(plainPassword, hashedPassword);
-        } catch (error) {
-            console.log("Erro ao validar senha:", error);
-            throw new Error("Erro ao validar senha", { cause: error });
         }
     },
 }
