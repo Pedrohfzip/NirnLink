@@ -10,6 +10,10 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.RefreshToken, {
+        foreignKey: 'user_id',
+        as: 'refreshTokens'
+      });
     }
   }
   User.init({
