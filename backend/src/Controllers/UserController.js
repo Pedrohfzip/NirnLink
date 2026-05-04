@@ -1,6 +1,14 @@
+import UserService from "../Services/UserService.js";
+
 const UserController = {
-    async getHelloWorld(req, res) {
-        res.send("Hello World on UserRouter!");
+    async createUser(req, res) {
+        const data = req.body;
+        try {
+            const user = await UserService.createUser(data);
+            res.status(201).json(user);
+        } catch (error) {
+            res.status(500).json({ error: "Erro ao criar usuário", details: error });
+        }
     }
 }
 
