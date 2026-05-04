@@ -19,7 +19,7 @@ const LoginService = {
     },
 
         // Função para validar senha
-    async validatePassword(plainPassword, hashedPassword) {
+    async validatePassword(plainPassword, hashedPassword) { 
         try {
             return await bcrypt.compare(plainPassword, hashedPassword);
         } catch (error) {
