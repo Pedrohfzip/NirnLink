@@ -17,6 +17,15 @@ const UserService = {
             throw new Error("Erro ao criar um usuário", { cause: error });
         }
     },
+    async getAllUsers() {
+        try {
+            const users = await db.User.findAll();
+            return users;
+        } catch (error) {
+            console.log("Erro ao obter usuários:", error);
+            throw new Error("Erro ao obter usuários", { cause: error });
+        }
+    }
 }
 
 

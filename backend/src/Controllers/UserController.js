@@ -9,6 +9,15 @@ const UserController = {
         } catch (error) {
             res.status(500).json({ error: "Erro ao criar usuário", details: error });
         }
+    },
+
+    async getAllUsers(req, res) {
+        try {
+            const users = await UserService.getAllUsers();
+            res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({ error: "Erro ao obter usuários", details: error });
+        }
     }
 }
 
