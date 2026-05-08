@@ -1,15 +1,14 @@
 import db from "../Database/models/index.js";
+import bcrypt from "bcryptjs";
 
 const UserService = {
 
     async createUser(data) {
         try {
-            // Criptografar a senha antes de salvar
             if (data.password) {
                 const salt = await bcrypt.genSalt(10);
                 data.password = await bcrypt.hash(data.password, salt);
             }
-
             const user = await db.User.create(data);
             return user;
         } catch (error) {
@@ -17,6 +16,7 @@ const UserService = {
             throw new Error("Erro ao criar um usuário", { cause: error });
         }
     },
+
     async getAllUsers() {
         try {
             const users = await db.User.findAll();
@@ -27,6 +27,5 @@ const UserService = {
         }
     }
 }
-
 
 export default UserService;

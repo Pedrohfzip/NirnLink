@@ -5,8 +5,9 @@ const LoginController = {
     async login(req, res) {
         const { email, password } = req.body;
         try {
-            const user = await LoginService.login(email, password);
-            res.status(200).json(user);
+            const { token } = await LoginService.login(email, password);
+
+            res.status(200).json({ token });
         } catch (error) {
             res.status(401).json({ error: "Falha no login", details: error.message });
         }
