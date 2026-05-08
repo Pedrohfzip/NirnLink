@@ -21,5 +21,5 @@ export function proxy(request: NextRequest) {
 
 // Quais rotas o middleware vai interceptar
 export const config = {
-  matcher: ['/dashboard/:path*', '/produtos/:path*', '/admin/:path*']
+  matcher: ['/home/:path*, //:path*, /login/:path*']
 }

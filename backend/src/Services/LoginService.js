@@ -16,6 +16,7 @@ const LoginService = {
                 id: data.id,
             }
             const token = await TokenService.generateToken(user);
+            // await TokenService.generateRefreshToken(user);
             return { token };
         } catch (error) {
             console.error("Erro ao fazer login:", error);
