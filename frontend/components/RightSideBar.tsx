@@ -81,7 +81,7 @@ export function RightSideBar() {
           display: flex;
           flex-direction: column;
           gap: 6px;
-          padding: 10px 0;
+          padding: 10px;
         }
 
         /* Header */

@@ -15,11 +15,11 @@ import {
 
 const NAV_MAIN = [
   { icon: Home,        label: "Início",       href: "/home",    badge: null },
-  { icon: Compass,     label: "Explorar",     href: "/explore", badge: null },
-  { icon: Trophy,      label: "Trials & Raids",href: "/trials",  badge: 3    },
-  { icon: Users,       label: "Membros",      href: "/members", badge: null },
-  { icon: ShoppingBag, label: "Mercado",      href: "/market",  badge: 12   },
-  { icon: Swords,      label: "Conquistas",   href: "/achievements", badge: null },
+  // { icon: Compass,     label: "Explorar",     href: "/explore", badge: null },
+  // { icon: Trophy,      label: "Trials & Raids",href: "/trials",  badge: 3    },
+  // { icon: Users,       label: "Membros",      href: "/members", badge: null },
+  // { icon: ShoppingBag, label: "Mercado",      href: "/market",  badge: 12   },
+  // { icon: Swords,      label: "Conquistas",   href: "/achievements", badge: null },
 ];
 
 const NAV_SECONDARY = [
@@ -45,6 +45,7 @@ export function LeftSideBar() {
           gap: 4px;
           padding: 10px 0;
           flex-shrink: 0;
+          padding: 10px;
         }
 
         /* Nav item */
