@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, Bell, Plus, Shield, X } from "lucide-react";
+import { Search, Bell, Plus, Shield, X, User, LogOut, Settings } from "lucide-react";
+import { logout } from "@/api/auth";
 
 // Troque por dados reais via context/session
 const MOCK_USER = {
@@ -19,7 +20,10 @@ const MOCK_NOTIFS = [
 export function Header() {
   const [search, setSearch] = useState("");
   const [notifOpen, setNotifOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  
   const notifRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   // Fecha dropdown ao clicar fora
   useEffect(() => {
@@ -27,10 +31,24 @@ export function Header() {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
         setNotifOpen(false);
       }
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Erro ao fazer logout no servidor:", err);
+    } finally {
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      window.location.href = "/login";
+    }
+  };
 
   return (
     <>
@@ -268,6 +286,62 @@ export function Header() {
           color: rgba(220,210,190,0.28);
           margin-top: 2px;
         }
+
+        /* Profile wrap and dropdown */
+        .os-profile-wrap {
+          position: relative;
+        }
+        .os-profile-dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          width: 180px;
+          background: #131520;
+          border: 1px solid rgba(180,140,60,0.15);
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+          z-index: 100;
+        }
+        .os-profile-head {
+          padding: 12px 14px 10px;
+          font-family: 'Cinzel', serif;
+          font-size: 9px;
+          letter-spacing: 0.2em;
+          color: rgba(180,140,60,0.6);
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          text-transform: uppercase;
+        }
+        .os-profile-item {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          padding: 10px 14px;
+          border-bottom: 1px solid rgba(255,255,255,0.04);
+          cursor: pointer;
+          font-family: 'Crimson Text', serif;
+          font-size: 14px;
+          color: rgba(220,210,190,0.72);
+          transition: background 0.15s, color 0.15s;
+          background: none;
+          border: none;
+          width: 100%;
+          text-align: left;
+        }
+        .os-profile-item:last-child {
+          border-bottom: none;
+        }
+        .os-profile-item:hover {
+          background: rgba(180,140,60,0.06);
+          color: #f0ead6;
+        }
+        .os-profile-item.logout {
+          color: #ff6b6b;
+        }
+        .os-profile-item.logout:hover {
+          background: rgba(220,20,60,0.1);
+          color: #ff8787;
+        }
       `}</style>
 
       <header className="os-header">
@@ -341,16 +415,42 @@ export function Header() {
             Postar
           </button>
 
-          {/* Avatar */}
-          <div
-            className="os-avatar"
-            style={{ background: MOCK_USER.color }}
-            title={MOCK_USER.name}
-            role="button"
-            tabIndex={0}
-            aria-label="Perfil do usuário"
-          >
-            {MOCK_USER.initials}
+          {/* Avatar com Dropdown de Perfil */}
+          <div className="os-profile-wrap" ref={profileRef}>
+            <div
+              className="os-avatar"
+              style={{ background: MOCK_USER.color }}
+              title={MOCK_USER.name}
+              role="button"
+              tabIndex={0}
+              aria-label="Perfil do usuário"
+              onClick={() => setProfileOpen((v) => !v)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setProfileOpen((v) => !v);
+                }
+              }}
+            >
+              {MOCK_USER.initials}
+            </div>
+
+            {profileOpen && (
+              <div className="os-profile-dropdown">
+                <div className="os-profile-head">{MOCK_USER.name}</div>
+                <button className="os-profile-item">
+                  <User size={14} />
+                  Meu Perfil
+                </button>
+                <button className="os-profile-item">
+                  <Settings size={14} />
+                  Configurações
+                </button>
+                <button className="os-profile-item logout" onClick={handleLogout}>
+                  <LogOut size={14} />
+                  Sair
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>

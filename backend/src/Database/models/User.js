@@ -14,6 +14,10 @@ export default (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'refreshTokens'
       });
+      User.hasMany(models.PasswordResetToken, {
+        foreignKey: 'user_id',
+        as: 'passwordResetTokens'
+      });
     }
   }
   User.init({
